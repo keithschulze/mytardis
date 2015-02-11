@@ -128,8 +128,8 @@ class ParameterName(models.Model):
     LINK = 4
     FILENAME = 5
     DATETIME = 6
-
     LONGSTRING = 7
+    BOOLEAN = 8
 
     __TYPE_CHOICES = (
         (NUMERIC, 'NUMERIC'),
@@ -138,7 +138,8 @@ class ParameterName(models.Model):
         (LINK, 'LINK'),
         (FILENAME, 'FILENAME'),
         (DATETIME, 'DATETIME'),
-        (LONGSTRING, 'LONGSTRING')
+        (LONGSTRING, 'LONGSTRING'),
+        (BOOLEAN, 'BOOLEAN')
         )
 
     schema = models.ForeignKey(Schema)
@@ -202,6 +203,12 @@ class ParameterName(models.Model):
 
     def isDateTime(self):
         if self.data_type == self.DATETIME:
+            return True
+        else:
+            return False
+
+    def isBoolean(self):
+        if self.data_type == self.BOOLEAN:
             return True
         else:
             return False
@@ -358,6 +365,7 @@ class Parameter(models.Model):
     string_value = models.TextField(null=True, blank=True, db_index=True)
     numerical_value = models.FloatField(null=True, blank=True, db_index=True)
     datetime_value = models.DateTimeField(null=True, blank=True, db_index=True)
+    boolean_value = models.BooleanField()
     objects = OracleSafeManager()
     parameter_type = 'Abstract'
 
